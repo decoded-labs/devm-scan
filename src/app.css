@@ -1,0 +1,96 @@
+:root {
+  --primary: #44f1a6;
+  --background: #000000;
+  --card-background: #050505;
+  --card-shadow: 0px 0px 150px rgba(68, 241, 166, 0.15);
+  --button-background: #161616;
+  --divider: #666666;
+  --white: #ffffff;
+  --white-60: rgba(255, 255, 255, 0.6);
+  --text-shadow: rgba(32, 219, 246, 0.6);
+}
+html,
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-family: "Fira Code";
+  font-style: normal;
+}
+
+body {
+  background-color: var(--background);
+  margin: 0;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: "Fira Code", monospace;
+}
+
+p {
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: -0.05em;
+  color: var(--white);
+  margin: 0px;
+  text-align: justify;
+}
+
+h1 {
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.05em;
+  color: var(--primary);
+  margin: 0px;
+}
+
+/* navigation buttons */
+h2 {
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.05em;
+  color: var(--white);
+  margin: 0px;
+}
+.nav-button:hover {
+  cursor: pointer;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+input {
+  height: 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 4px 12px;
+  background: var(--background);
+  border: 1px solid var(--button-background);
+  color: var(--primary);
+  font-family: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+h3 {
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+  text-align: justify;
+  color: var(--primary);
+  text-shadow: 0px 0px 50px var(--text-shadow);
+  margin: 0px;
+}
