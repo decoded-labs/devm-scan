@@ -13,7 +13,4 @@
     box-sizing: border-box;
     box-shadow: var(--card-shadow);
   }
-  h2 {
-    color: var(--primary);
-  }
 </style>

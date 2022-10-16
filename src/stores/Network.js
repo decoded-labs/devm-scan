@@ -5,3 +5,4 @@ export const connectNode = async () => {
   const provider = new ethers.providers.JsonRpcProvider("http://decoded.wtf");
   nodeProvider.set(provider);
 };
+connectNode();
