@@ -1,36 +1,26 @@
-<script>
+<script lang="ts">
   import Card from "./lib/Card.svelte";
+  import { ethers } from "ethers";
+  import { connectNode, nodeProvider } from "./stores/Network.js";
+  import { onMount } from "svelte";
+  let latest_block, gas_price;
 
-  let chain_info = [
-    {
-      key: "total_txs",
-      value: 532,
-    },
-    {
-      key: "gas_price",
-      value: 1,
-    },
-    {
-      key: "id",
-      value: 1453,
-    },
-    {
-      key: "latest_block",
-      value: 53225,
-    },
-    {
-      key: "name",
-      value: "devm",
-    },
-    {
-      key: "dictators",
-      value: 1,
-    },
-  ];
   let txs = Array(10).fill({
     date: "16.10.22 / 15:08:32",
     hash: "0xc86e9c924c1187b58802f40de786a772554e88fa35cb9adb015cfb90bb8265eb",
   });
+
+  onMount(async () => {
+    await connectNode();
+    await fetchData();
+  });
+  setInterval(() => {
+    fetchData();
+  }, 30000);
+  const fetchData = async () => {
+    latest_block = await $nodeProvider.getBlockNumber();
+    gas_price = parseInt(ethers.utils.formatUnits(await $nodeProvider.getGasPrice(), 9));
+  };
 </script>
 
 <main>
@@ -47,9 +37,12 @@
     </div>
     <div style="height:24px" />
     <div class="info">
-      {#each chain_info as i}
-        <p>{i.key}: <span>{i.value}</span></p>
-      {/each}
+      <p>total_txs: <span>?</span></p>
+      <p>gas_price: <span>{gas_price}</span></p>
+      <p>id: <span>1453</span></p>
+      <p>latest_block: <span>{latest_block}</span></p>
+      <p>name: <span>devm</span></p>
+      <p>dictators: <span>1</span></p>
     </div>
     <div style="height:24px" />
     <h1>latest_txs</h1>
