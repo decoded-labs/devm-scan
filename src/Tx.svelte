@@ -193,8 +193,8 @@
             <p class="key">data</p>
             <p class="value">{log.data}</p>
           </div>
-          <div style="height:28px" />
           {#if index + 1 != tx_logs.length}
+            <div style="height:28px" />
             <div class="divider-line" />
             <div style="height:28px" />
           {/if}

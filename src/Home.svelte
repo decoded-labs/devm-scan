@@ -4,9 +4,10 @@
   import { connectNode, nodeProvider } from "./stores/Network.js";
   import { ethers } from "ethers";
   import { createEventDispatcher } from "svelte";
+  import { Jumper } from "svelte-loading-spinners";
 
   const dispatch = createEventDispatcher();
-
+  let loaded = false;
   let latest_block, gas_price;
   let txs = Array(10).fill({
     date: "16.10.22 / 15:08:32",
@@ -22,6 +23,10 @@
   }, 30000);
   const fetchData = async () => {
     gas_price = parseInt(ethers.utils.formatUnits(await $nodeProvider.getGasPrice(), 9));
+    $nodeProvider.on("block", (blockNumber) => {
+      latest_block = blockNumber;
+      loaded = true;
+    });
   };
   let value;
   $: {
@@ -32,43 +37,47 @@
   const handleClick = (tx) => {
     value = tx.hash;
   };
-  $nodeProvider.on("block", (blockNumber) => {
-    latest_block = blockNumber;
-  });
 </script>
 
-<Card>
-  <div class="search-bar">
-    <h1>search_></h1>
-    <input bind:value type="text" placeholder="enter tx hash or click one below" />
-  </div>
-  <div style="height:24px" />
-  <div class="info">
-    <p>total_txs: <span>?</span></p>
-    <p>gas_price: <span>{gas_price}</span></p>
-    <p>id: <span>1453</span></p>
-    <p>latest_block: <span>{latest_block}</span></p>
-    <p>name: <span>devm</span></p>
-    <p>dictators: <span>1</span></p>
-  </div>
-  <div style="height:24px" />
-  <h1>latest_txs</h1>
-  <div style="height:12px" />
-
-  <div class="tx-container">
-    {#each txs as tx}
-      <div class="tx">
-        <p class="date">{tx.date}</p>
-        <div class="hash-container" on:click={() => handleClick(tx)} on:keydown>
-          <p class="hash">{tx.hash}</p>
-          <div class="icon-box">
-            <img src="./external-link.svg" alt="" />
-          </div>
-        </div>
+<main>
+  {#if loaded}
+    <Card>
+      <div class="search-bar">
+        <h1>search_></h1>
+        <input bind:value type="text" placeholder="enter tx hash or click one below" />
       </div>
-    {/each}
-  </div>
-</Card>
+      <div style="height:24px" />
+      <div class="info">
+        <p>total_txs: <span>?</span></p>
+        <p>gas_price: <span>{gas_price}</span></p>
+        <p>id: <span>1453</span></p>
+        <p>latest_block: <span>{latest_block}</span></p>
+        <p>name: <span>devm</span></p>
+        <p>dictators: <span>1</span></p>
+      </div>
+      <div style="height:24px" />
+      <h1>latest_txs</h1>
+      <div style="height:12px" />
+
+      <div class="tx-container">
+        {#each txs as tx}
+          <div class="tx">
+            <p class="date">{tx.date}</p>
+            <div class="hash-container" on:click={() => handleClick(tx)} on:keydown>
+              <p class="hash">{tx.hash}</p>
+              <div class="icon-box">
+                <img src="./external-link.svg" alt="" />
+              </div>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </Card>
+  {:else}
+    <div style="height: 72px;" />
+    <Jumper size="60" color="var(--primary)" unit="px" duration="1s" />
+  {/if}
+</main>
 
 <style>
   .search-bar {

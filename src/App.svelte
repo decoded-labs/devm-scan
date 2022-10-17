@@ -25,6 +25,7 @@
   {:else}
     <Tx {tx} />
   {/if}
+  <div style="height:60px" />
 </main>
 
 <style>
