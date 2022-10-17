@@ -21,9 +21,7 @@
     fetchData();
   }, 30000);
   const fetchData = async () => {
-    latest_block = await $nodeProvider.getBlockNumber();
     gas_price = parseInt(ethers.utils.formatUnits(await $nodeProvider.getGasPrice(), 9));
-    // console.log(await $nodeProvider.getTransaction("0x4d6f1f3865adc85357c8995fc07f078266d440c9a860c8167485e86206e3a098"));
   };
   let value;
   $: {
@@ -34,6 +32,9 @@
   const handleClick = (tx) => {
     value = tx.hash;
   };
+  $nodeProvider.on("block", (blockNumber) => {
+    latest_block = blockNumber;
+  });
 </script>
 
 <Card>
