@@ -21,7 +21,6 @@
     let tx_res = await tx_obj.wait();
     tx_status = tx_res.status == 1 ? "Success" : "Fail";
     tx_gas_used = tx_res.cumulativeGasUsed.toString();
-    console.log(tx_res);
     tx_hash = tx_obj.hash;
     tx_block = tx_obj.blockNumber;
     tx_from = tx_obj.from;
@@ -99,7 +98,7 @@
           logs
         </h1>
       </div>
-      <div style="height:32px;" />
+      <div style="height:28px;" />
       {#if summary_tab}
         <div class="row">
           <p class="key">tx_hash</p>
@@ -161,7 +160,7 @@
           <p class="value">{tx_data}</p>
         </div>
       {:else}
-        {#each tx_logs as log}
+        {#each tx_logs as log, index}
           <div class="row">
             <p class="key">address</p>
             <p class="value">{log.address}</p>
@@ -194,6 +193,11 @@
             <p class="key">data</p>
             <p class="value">{log.data}</p>
           </div>
+          <div style="height:28px" />
+          {#if index + 1 != tx_logs.length}
+            <div class="divider-line" />
+            <div style="height:28px" />
+          {/if}
         {/each}
       {/if}
     </Card>
@@ -237,5 +241,10 @@
   }
   .tabs > h1 {
     cursor: pointer;
+  }
+  .divider-line {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 0;
   }
 </style>
