@@ -11,7 +11,7 @@
   let latest_block, gas_price;
   let txs = Array(10).fill({
     date: "16.10.22 / 15:08:32",
-    hash: "0x4d6f1f3865adc85357c8995fc07f078266d440c9a860c8167485e86206e3a098",
+    hash: "0x4fac0458fc5f4cfe815791d6a28427d4fe6e51be9d2e471a014ef44c5e600abd",
   });
 
   onMount(async () => {
