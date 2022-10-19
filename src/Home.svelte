@@ -9,10 +9,8 @@
   const dispatch = createEventDispatcher();
   let loaded = false;
   let latest_block, gas_price;
-  let txs = Array(10).fill({
-    date: "16.10.22 / 15:08:32",
-    hash: "0x4fac0458fc5f4cfe815791d6a28427d4fe6e51be9d2e471a014ef44c5e600abd",
-  });
+  let txs = [];
+  let tss = [];
 
   onMount(async () => {
     await connectNode();
@@ -20,9 +18,13 @@
   });
   setInterval(() => {
     fetchData();
-  }, 30000);
+  }, 10000);
   const fetchData = async () => {
     gas_price = parseInt(ethers.utils.formatUnits(await $nodeProvider.getGasPrice(), 9));
+
+    let res = await fetch("https://decoded.wtf:1489/v1/txs/10").then((x) => x.json());
+    txs = res.payload.transactions;
+    tss = res.payload.timestamps;
     $nodeProvider.on("block", (blockNumber) => {
       latest_block = blockNumber;
       loaded = true;
@@ -35,7 +37,7 @@
     });
   }
   const handleClick = (tx) => {
-    value = tx.hash;
+    value = tx;
   };
 </script>
 
@@ -60,11 +62,11 @@
       <div style="height:12px" />
 
       <div class="tx-container">
-        {#each txs as tx}
+        {#each txs as tx, i}
           <div class="tx">
-            <p class="date">{tx.date}</p>
+            <p class="date">{tss[i]}</p>
             <div class="hash-container" on:click={() => handleClick(tx)} on:keydown>
-              <p class="hash">{tx.hash}</p>
+              <p class="hash">{tx}</p>
               <div class="icon-box">
                 <img src="./external-link.svg" alt="" />
               </div>
