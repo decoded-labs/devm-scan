@@ -9,6 +9,7 @@
   const dispatch = createEventDispatcher();
   let loaded = false;
   let latest_block, gas_price;
+  let tx_count;
   let txs = [];
   let tss = [];
 
@@ -21,10 +22,11 @@
   }, 10000);
   const fetchData = async () => {
     gas_price = parseInt(ethers.utils.formatUnits(await $nodeProvider.getGasPrice(), 9));
-
     let res = await fetch("https://decoded.wtf:1489/v1/txs/10").then((x) => x.json());
     txs = res.payload.transactions;
     tss = res.payload.timestamps;
+    res = await fetch("https://decoded.wtf:1489/v1/tx_count").then((x) => x.json());
+    tx_count = parseInt(res.payload);
     $nodeProvider.on("block", (blockNumber) => {
       latest_block = blockNumber;
       loaded = true;
@@ -50,7 +52,7 @@
       </div>
       <div style="height:24px" />
       <div class="info">
-        <p>total_txs: <span>?</span></p>
+        <p>total_txs: <span>{tx_count}</span></p>
         <p>gas_price: <span>{gas_price}</span></p>
         <p>id: <span>1453</span></p>
         <p>latest_block: <span>{latest_block}</span></p>
